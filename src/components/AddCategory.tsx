@@ -1,11 +1,11 @@
 import { FC, ReactNode, useState } from 'react';
 
 interface AddCategoryProps {
-  setCategories: React.Dispatch<React.SetStateAction<string[]>>;
+  onNewCategory: (event: string) => void;
 }
 
-const AddCategory: FC<AddCategoryProps> = ({ setCategories }): ReactNode => {
-  const [inputValue, setInputValue] = useState('One Punch');
+const AddCategory: FC<AddCategoryProps> = ({ onNewCategory }): ReactNode => {
+  const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = ({ target }: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(target.value);
@@ -13,9 +13,11 @@ const AddCategory: FC<AddCategoryProps> = ({ setCategories }): ReactNode => {
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
+    
+    const trimmedValue: string = inputValue.trim();
+    if (trimmedValue.length <= 1) return;
 
-    if (inputValue.trim().length <= 1) return;
-    setCategories(category => [inputValue, ...category]);
+    onNewCategory(trimmedValue);
     setInputValue('');
   };
 

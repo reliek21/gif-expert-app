@@ -3,14 +3,17 @@ import AddCategory from './components/AddCategory';
 
 function App(): ReactNode {
   const [categories, setCategories] = useState<string[]>(['One Punch', 'Samurai X']);
-  const handleAdd = () => setCategories([...categories, 'HunterXHunter']);
+  
+  const onAddCategory = (newCategory: string): void => {
+    if (categories.includes(newCategory)) return;
+    setCategories([...categories, newCategory]);
+  };
 
   return (
     <>
       <h1>Gif Expert APp</h1>
 
-      <AddCategory setCategories={setCategories} />
-      <button onClick={handleAdd}>Add new category</button>
+      <AddCategory onNewCategory={onAddCategory} />
 
       <ol>
         {categories.map((category: string) => (
